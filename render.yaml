@@ -1,7 +1,6 @@
 services:
   - type: static_site
     name: vite-react-typescript-starter
-    env: static
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     routes:
