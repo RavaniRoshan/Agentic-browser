@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HeroPromptInterface } from '../components/HeroPromptInterface';
+import { UserReviews } from '../components/UserReviews';
 import { 
   Bot, 
   Zap, 
@@ -17,6 +19,12 @@ export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleTryNow = () => {
+    navigate('/app');
+  };
+
+  const handlePromptSubmit = (prompt: string) => {
+    // Store the prompt for the main app and navigate
+    localStorage.setItem('initialPrompt', prompt);
     navigate('/app');
   };
 
@@ -87,6 +95,13 @@ export const LandingPage: React.FC = () => {
         {/* Floating Elements */}
         <div className="absolute top-20 left-10 w-20 h-20 bg-purple-200 rounded-full opacity-20 animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
+      </section>
+
+      {/* Hero Prompt Interface */}
+      <section className="px-6 py-16 relative">
+        <div className="max-w-7xl mx-auto">
+          <HeroPromptInterface onSubmit={handlePromptSubmit} />
+        </div>
       </section>
 
       {/* Features Section */}
@@ -207,6 +222,9 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* User Reviews Section */}
+      <UserReviews />
 
       {/* CTA Section */}
       <section className="px-6 py-20 bg-gradient-to-r from-purple-600 to-blue-600">

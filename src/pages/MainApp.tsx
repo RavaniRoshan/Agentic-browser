@@ -29,6 +29,23 @@ export const MainApp: React.FC = () => {
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
     }
+
+    // Check for initial prompt from landing page
+    const initialPrompt = localStorage.getItem('initialPrompt');
+    if (initialPrompt) {
+      // Auto-create task from landing page prompt
+      const newTask: BrowserTask = {
+        id: Date.now().toString(),
+        name: `Automated Task: ${initialPrompt.slice(0, 50)}${initialPrompt.length > 50 ? '...' : ''}`,
+        description: initialPrompt,
+        url: 'https://example.com', // Default URL, user can modify
+        actions: [],
+        createdAt: new Date().toISOString(),
+        status: 'pending'
+      };
+      setTasks(prev => [newTask, ...prev]);
+      localStorage.removeItem('initialPrompt'); // Clear the prompt
+    }
   }, []);
 
   // Save tasks to localStorage whenever tasks change
