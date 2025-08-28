@@ -1,8 +1,9 @@
 {
   "name": "agentic-browser-monorepo",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Full-stack Agentic Browser Plugin WebApp with Python/FastAPI and Node.js/NestJS backends",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*"
   ],
@@ -18,7 +19,7 @@
     "concurrently": "^8.2.2"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": "20.x",
     "pnpm": ">=8.0.0"
   }
 }
