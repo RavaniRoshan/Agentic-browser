@@ -1,136 +1,129 @@
-# Agentic Browser Plugin WebApp using GPT-OSS 20B
+# 🟣 Agentic Browser Plugin WebApp
 
-This project is an agentic browser automation platform that leverages the power of Large Language Models to perform tasks on the web. It uses a Python (FastAPI, Playwright) and Node.js (NestJS) backend, with a Next.js and Tailwind CSS frontend. The core reasoning and automation brain is powered by the OpenAI GPT-OSS 20B model via Hugging Face Transformers.
-
-## 🟣 Project Agent Prompt for Bolt
-
-This project is developed in collaboration with AI agents. The core principles and instructions for these agents are defined in `bolt.md`.
-
-- **Your goals are:**
-  - Help build and improve an agentic browser automation platform using a Python (FastAPI, Playwright) + Node.js (NestJS) tech stack.
-  - Integrate the OpenAI GPT-OSS 20B model as the core reasoning and automation brain, using Hugging Face Transformers.
-  - Deploy and orchestrate systems using Docker, Neon (or Supabase), and front-end via Next.js/Tailwind on Vercel or Render.com.
-
-## Core Features
-
-*   **Agentic Browsing:** Automate browser tasks using natural language instructions.
-*   **AI-Powered Reasoning:** Utilizes the GPT-OSS 20B model for intelligent task execution.
-*   **Modern Tech Stack:** Built with a robust and scalable combination of Python, Node.js, and Next.js.
-*   **Containerized Deployment:** Uses Docker for consistent development and production environments.
-*   **Cloud-Native Database:** Leverages Neon or Supabase for data persistence.
+## Project Overview
+An intelligent browser automation platform that combines modern web technologies with AI-powered automation capabilities.
 
 ## Tech Stack
 
-### Backend
-*   **Python:**
-    *   **FastAPI:** High-performance web framework for building APIs.
-    *   **Playwright:** For reliable end-to-end browser automation.
-*   **Node.js:**
-    *   **NestJS:** A progressive Node.js framework for building efficient, reliable and scalable server-side applications.
-*   **AI Model:**
-    *   **GPT-OSS 20B:** The core reasoning engine.
-    *   **Hugging Face Transformers:** For integrating and serving the model.
+### Frontend (Current Implementation)
+- **Framework**: React 18 with TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Build Tool**: Vite
+- **State Management**: React Hooks + localStorage
 
-### Frontend
-*   **Next.js:** React framework for production.
-*   **Tailwind CSS:** A utility-first CSS framework.
+### Planned Backend Integration
+- **API**: FastAPI (Python)
+- **Browser Automation**: Playwright
+- **AI Model**: GPT-OSS 20B via Hugging Face Transformers
+- **Database**: Supabase/Neon PostgreSQL
+- **Containerization**: Docker
+- **Deployment**: Vercel (frontend) + Render.com (backend)
 
-### Infrastructure
-*   **Docker:** For containerization.
-*   **Neon / Supabase:** Managed PostgreSQL database.
-*   **Vercel / Render.com:** For frontend deployment.
+## Current Features
+
+### ✅ Implemented
+- Modern, responsive UI with production-quality design
+- Task creation and management interface
+- Real-time task status tracking
+- Agent configuration settings
+- Task detail views with execution results
+- Local storage persistence
+- Quick action templates for popular websites
+
+### 🔄 In Progress
+- Backend API integration
+- Real browser automation execution
+- Screenshot capture and display
+- Data extraction visualization
+
+### 📋 Planned
+- WebSocket real-time updates
+- Task scheduling and queuing
+- Multi-browser support
+- Plugin marketplace
+- Team collaboration features
+
+## Architecture
+
+```
+Frontend (React/TypeScript)
+    ↓ HTTP/WebSocket
+Backend API (FastAPI)
+    ↓ 
+Browser Engine (Playwright)
+    ↓
+AI Agent (GPT-OSS 20B)
+    ↓
+Database (PostgreSQL)
+```
+
+## Development Guidelines
+
+### Code Organization
+- Modular component architecture
+- TypeScript for type safety
+- Tailwind for consistent styling
+- Lucide React for icons
+- Clean separation of concerns
+
+### Design Principles
+- Apple-level design aesthetics
+- Intuitive user experience
+- Responsive across all devices
+- Accessibility-first approach
+- Performance optimization
+
+### Security Considerations
+- Input validation and sanitization
+- Secure API communication
+- Rate limiting and throttling
+- User authentication and authorization
 
 ## Getting Started
 
-### Prerequisites
+1. **Development Server**
+   ```bash
+   npm run dev
+   ```
 
-*   Node.js
-*   Python
-*   Docker
-*   Access to a Neon or Supabase database.
+2. **Build for Production**
+   ```bash
+   npm run build
+   ```
 
-### Installation
+3. **Preview Production Build**
+   ```bash
+   npm run preview
+   ```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/agentic-browser-plugin.git
-    cd agentic-browser-plugin
-    ```
+## Next Steps
 
-2.  **Set up backend services:**
-    *   Navigate to the backend directory (`cd backend`).
-    *   Install Python dependencies:
-        ```bash
-        pip install -r requirements.txt
-        ```
-    *   Set up your `.env` file with database credentials and other secrets.
+1. **Backend Development**
+   - Set up FastAPI server
+   - Integrate Playwright for browser automation
+   - Implement GPT-OSS 20B model integration
+   - Create database schema and migrations
 
-3.  **Set up frontend service:**
-    *   Navigate to the frontend directory (`cd frontend`).
-    *   Install Node.js dependencies:
-        ```bash
-        npm install
-        ```
-    *   Set up your `.env.local` file with the necessary API keys and backend URLs.
+2. **Integration**
+   - Connect frontend to backend APIs
+   - Implement real-time WebSocket communication
+   - Add authentication and user management
 
-### Running the Application
-
-You can run the entire application stack using Docker Compose:
-
-```bash
-docker-compose up --build
-```
-
-Alternatively, you can run each service individually for development.
-
-*   **Backend (Python):**
-    ```bash
-    uvicorn main:app --reload --host 0.0.0.0 --port 8000
-    ```
-*   **Backend (Node.js):**
-    ```bash
-    npm run start:dev
-    ```
-*   **Frontend:**
-    ```bash
-    npm run dev
-    ```
-
-## Running Tests
-
-To run the test suite for the backend and frontend, use the following commands:
-
-*   **Backend (Python):**
-    ```bash
-    pytest
-    ```
-*   **Backend (Node.js):**
-    ```bash
-    npm test
-    ```
-*   **Frontend:**
-    ```bash
-    npm test
-    ```
-
-## Deployment
-
-The frontend is designed for deployment on Vercel or Render.com. The backend services can be deployed as Docker containers on any cloud provider that supports them (e.g., AWS, Google Cloud, Azure).
-
-Refer to the deployment guides for each platform for detailed instructions.
+3. **Deployment**
+   - Containerize backend services
+   - Set up CI/CD pipelines
+   - Deploy to production environments
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps:
+- Follow the established code patterns
+- Maintain TypeScript strict mode
+- Write comprehensive tests
+- Update documentation
+- Follow semantic commit messages
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/your-feature-name`).
-3.  Make your changes and commit them (`git commit -m 'Add some feature'`).
-4.  Push to the branch (`git push origin feature/your-feature-name`).
-5.  Open a pull request.
+---
 
-Please make sure to update tests as appropriate.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+**Status**: Frontend MVP Complete ✅  
+**Next Milestone**: Backend API Integration 🔄

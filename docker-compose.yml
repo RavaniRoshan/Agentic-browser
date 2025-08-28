@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: agentic-browser-db
+    environment:
+      POSTGRES_DB: agentic_browser
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for job queues
+  redis:
+    image: redis:7-alpine
+    container_name: agentic-browser-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Python/FastAPI Backend
+  backend-python:
+    build:
+      context: ./packages/backend-python
+      dockerfile: Dockerfile
+    container_name: agentic-browser-python
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_browser
+      ENVIRONMENT: development
+      BACKEND_CORS_ORIGINS: '["http://localhost:3000", "http://localhost:3001"]'
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./packages/backend-python:/app
+    restart: unless-stopped
+
+  # Node.js/NestJS Backend
+  backend-node:
+    build:
+      context: ./packages/backend-node
+      dockerfile: Dockerfile
+    container_name: agentic-browser-node
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_browser
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: development
+      CORS_ORIGINS: http://localhost:3000,http://localhost:8000
+      PYTHON_BACKEND_URL: http://backend-python:8000
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./packages/backend-node:/app
+    restart: unless-stopped
+
+  # Frontend (for development)
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile
+    container_name: agentic-browser-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-python
+      - backend-node
+    volumes:
+      - ./packages/frontend:/app
+    environment:
+      - VITE_API_PYTHON_URL=http://localhost:8000
+      - VITE_API_NODE_URL=http://localhost:3001
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: agentic-browser-network
