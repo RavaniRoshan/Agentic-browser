@@ -1,0 +1,87 @@
+// Prisma schema for Node.js backend
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  url         String
+  status      TaskStatus @default(PENDING)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  completedAt DateTime? @map("completed_at")
+  result      Json?
+  
+  // Relations
+  actions     Action[]
+  events      TaskEvent[]
+  
+  @@map("browser_tasks")
+}
+
+model Action {
+  id          String     @id @default(cuid())
+  taskId      String     @map("task_id")
+  type        ActionType
+  selector    String?
+  value       String?
+  description String
+  completed   Boolean    @default(false)
+  order       Int        @default(0)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  
+  // Relations
+  task        Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  @@map("browser_actions")
+}
+
+model TaskEvent {
+  id        String    @id @default(cuid())
+  taskId    String    @map("task_id")
+  type      EventType
+  message   String
+  data      Json?
+  createdAt DateTime  @default(now()) @map("created_at")
+  
+  // Relations
+  task      Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  @@map("task_events")
+}
+
+enum TaskStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum ActionType {
+  CLICK
+  TYPE
+  SCROLL
+  WAIT
+  EXTRACT
+  NAVIGATE
+  SCREENSHOT
+}
+
+enum EventType {
+  TASK_STARTED
+  TASK_COMPLETED
+  TASK_FAILED
+  ACTION_STARTED
+  ACTION_COMPLETED
+  ACTION_FAILED
+  SCREENSHOT_TAKEN
+  DATA_EXTRACTED
+}
